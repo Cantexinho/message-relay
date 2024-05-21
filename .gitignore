@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# copy of mysql docker container db
+mysql-data/
+
 # C extensions
 *.so
 

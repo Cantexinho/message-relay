@@ -5,6 +5,10 @@ services:
       - "8000:8000"
     volumes:
       - ./message-receiver-api:/app
+    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
     depends_on:
       - db
 
@@ -14,6 +18,10 @@ services:
       - "8001:8001"
     volumes:
       - ./message-sender-api:/app
+    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
     depends_on:
       - message-receiver-api
 
@@ -21,10 +29,11 @@ services:
     image: mysql:8.4
     restart: always
     environment:
-      MYSQL_DATABASE: your_database_name
-      MYSQL_USER: your_username
-      MYSQL_PASSWORD: your_password
+      MYSQL_ROOT_PASSWORD: 420420
+      MYSQL_DATABASE: messages-db
+      MYSQL_USER: database_user
+      MYSQL_PASSWORD: database_user_password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ./mysql-data:/var/lib/mysql

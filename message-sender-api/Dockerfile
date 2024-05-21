@@ -3,23 +3,17 @@ LABEL maintainer="PK"
 
 ENV PYTHONUNBUFFERED 1
 
-RUN pip install poetry
-
-COPY ./pyproject.toml ./poetry.lock* /app/
-
-COPY ./message_sender_api /app
 WORKDIR /app
+
+COPY pyproject.toml poetry.lock ./
+
+RUN pip install --no-cache-dir poetry
+
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-dev --no-interaction --no-ansi
+
+COPY message_sender_api ./message_sender_api
 
 EXPOSE 8001
 
-RUN poetry install --no-root && \
-    adduser \
-        --disabled-password \
-        --no-create-home \
-        api-user
-
-RUN mkdir /py && cp -r $(poetry env info --path)/* /py
-
-ENV PATH="/py/bin:$PATH"
-
-USER api-user
+CMD ["poetry", "run", "uvicorn", "message_sender_api.main:app", "--host", "0.0.0.0", "--port", "8001"]
