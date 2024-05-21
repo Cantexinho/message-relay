@@ -12,6 +12,7 @@ Dependencies:
   - FastAPI
   - uvicorn
   - Pydantic
+  - pytest
     
 - message-receiver-api:
   - FastAPI
@@ -19,6 +20,7 @@ Dependencies:
   - Pydantic
   - SQLAlchemy
   - mysql-connector-python
+  - pytest
 
 Docker-compose:
 - message-sender-api (python:3.12-slim-bookworm)
