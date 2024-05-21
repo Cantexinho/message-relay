@@ -12,7 +12,7 @@ Dependencies:
   - FastAPI
   - uvicorn
   - Pydantic
-  - 
+    
 - message-receiver-api:
   - FastAPI
   - uvicorn
