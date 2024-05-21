@@ -1,0 +1,30 @@
+services:
+  message-receiver-api:
+    build: ./message-receiver-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./message-receiver-api:/app
+    depends_on:
+      - db
+
+  message-sender-api:
+    build: ./message-sender-api
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./message-sender-api:/app
+    depends_on:
+      - message-receiver-api
+
+  db:
+    image: mysql:8.4
+    restart: always
+    environment:
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_username
+      MYSQL_PASSWORD: your_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
