@@ -20,10 +20,10 @@ jobs:
           docker-compose up -d --build
       - name: Run Tests for message-receiver-api
         run: |
-          docker-compose exec message-receiver-api pytest tests/
+          docker-compose exec -T message-receiver-api pytest tests/
       - name: Run Tests for message-sender-api
         run: |
-          docker-compose exec message-sender-api pytest tests/
+          docker-compose exec -T message-sender-api pytest tests/
       - name: Stop Containers
         if: always()
         run: |
