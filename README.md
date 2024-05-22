@@ -8,13 +8,13 @@ Stack:
 - Poetry for dependency management
 
 Dependencies:
-- message-sender-api:
+- event-propagator:
   - FastAPI
   - uvicorn
   - Pydantic
   - pytest
     
-- message-receiver-api:
+- event-consumer:
   - FastAPI
   - uvicorn
   - Pydantic
@@ -23,20 +23,20 @@ Dependencies:
   - pytest
 
 Docker-compose:
-- message-sender-api (python:3.12-slim-bookworm)
-- message-receiver-api (python:3.12-slim-bookworm)
+- event-propagator (python:3.12-slim-bookworm)
+- event-consumer (python:3.12-slim-bookworm)
 - MySQL database (mysql:8.4)
 
 
 Workflow:
-- message-sender-api:
+- event-propagator:
   - service starts
   - time(seconds) start running
   - time reaches requested value (pydantic BaseSettings)
   - JSON object is selected randomly from predefined JSON objects file (location of file: pydantic BaseSettings)
   - service sends request to provided endpoint (pydantic BaseSettings)
  
-- message-receiver-api
+- event-consumer:
   - service starts
   - endpoint start to accept incoming POST requests on the path `/event`
   - request received
