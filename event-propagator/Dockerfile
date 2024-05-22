@@ -12,8 +12,8 @@ RUN pip install --no-cache-dir poetry
 RUN poetry config virtualenvs.create false \
     && poetry install --no-dev --no-interaction --no-ansi
 
-COPY message_sender_api ./message_sender_api
+COPY event_propagator ./event_propagator
 
 EXPOSE 8001
 
-CMD ["poetry", "run", "uvicorn", "message_sender_api.main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["poetry", "run", "uvicorn", "event_propagator.main:app", "--host", "0.0.0.0", "--port", "8001"]

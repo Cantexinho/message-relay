@@ -1,10 +1,10 @@
 services:
-  message-receiver-api:
-    build: ./message-receiver-api
+  event-consumer:
+    build: ./event-consumer
     ports:
       - "8000:8000"
     volumes:
-      - ./message-receiver-api:/app
+      - ./event-consumer:/app
     restart: always
     deploy:
       restart_policy:
@@ -12,18 +12,18 @@ services:
     depends_on:
       - db
 
-  message-sender-api:
-    build: ./message-sender-api
+  event-propagator:
+    build: ./event-propagator
     ports:
       - "8001:8001"
     volumes:
-      - ./message-sender-api:/app
+      - ./event-propagator:/app
     restart: always
     deploy:
       restart_policy:
         condition: on-failure
     depends_on:
-      - message-receiver-api
+      - event-consumer
 
   db:
     image: mysql:8.4

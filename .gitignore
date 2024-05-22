@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# requirements.txt as poetry is used
+requirements.txt
+
 # copy of mysql docker container db
 mysql-data/
 
