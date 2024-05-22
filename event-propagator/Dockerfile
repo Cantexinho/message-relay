@@ -14,6 +14,8 @@ RUN poetry config virtualenvs.create false \
 
 COPY event_propagator ./event_propagator
 
+WORKDIR /app/event_propagator
+
 EXPOSE 8001
 
-CMD ["poetry", "run", "uvicorn", "event_propagator.main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["poetry", "run", "python", "main.py"]

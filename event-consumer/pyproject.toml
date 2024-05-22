@@ -13,6 +13,7 @@ pydantic = "^2.7.1"
 SQLAlchemy = "^2.0.30"
 mysql-connector-python = "^8.4.0"
 pytest = "^8.2.1"
+pyjwt = "^2.8.0"
 
 [build-system]
 requires = ["poetry-core"]

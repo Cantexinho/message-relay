@@ -1,22 +1,22 @@
-from fastapi import FastAPI, Response, status
-from fastapi.middleware.cors import CORSMiddleware
-
-app = FastAPI()
-
-origins = [
-    "http://localhost:3000",
-]
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import aiohttp
+import asyncio
 
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+async def send_request():
+    async with aiohttp.ClientSession() as session:
+        async with session.get("http://localhost:8000/events") as response:
+            print(await response.text())
 
 
-@app.get("/ready/")
-async def ready_check():
-    return Response(status_code=status.HTTP_200_OK, content="ok")
+async def main():
+    scheduler = AsyncIOScheduler()
+    scheduler.add_job(send_request, "interval", seconds=20)
+    scheduler.start()
+
+    while True:
+        await asyncio.sleep(3600)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
