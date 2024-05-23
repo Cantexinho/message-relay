@@ -16,4 +16,4 @@ COPY event_consumer ./event_consumer
 
 EXPOSE 8000
 
-CMD ["poetry", "run", "uvicorn", "event_consumer.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["poetry", "run", "uvicorn", "event_consumer.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

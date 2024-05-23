@@ -6,6 +6,12 @@ services:
     volumes:
       - ./event-consumer:/app
     restart: always
+    environment:
+      SERVICE_NAME: service1
+      SERVICE_PASSWORD: service_password
+      SECRET_KEY: 420420
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
     deploy:
       restart_policy:
         condition: on-failure
@@ -19,6 +25,9 @@ services:
     volumes:
       - ./event-propagator:/app
     restart: always
+    environment:
+      SERVICE_NAME: service1
+      SERVICE_PASSWORD: service_password
     deploy:
       restart_policy:
         condition: on-failure

@@ -52,3 +52,6 @@ Endpoints:
   - `/token` `POST` generates auth token and refresh token when passed credentials
   - `/event` `POST` uploads received payload to database
   - `/event` `GET` lists events uploaded to database
+
+  Auth:
+  - Oauth2 JWT authentication for callin event-consumer. Storing username and password of event-propagator in env variables as it is the only service we want to authenticate.
