@@ -6,9 +6,12 @@ services:
     volumes:
       - ./event-consumer:/app
     restart: always
-    env_file:
-      - path: .env
-        required: false
+    environment:
+      SERVICE_NAME: ${SERVICE_NAME}
+      SERVICE_PASSWORD: ${SERVICE_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
     deploy:
       restart_policy:
         condition: on-failure
@@ -22,9 +25,9 @@ services:
     volumes:
       - ./event-propagator:/app
     restart: always
-    env_file:
-      - path: .env
-        required: false
+    environment:
+      SERVICE_NAME: ${SERVICE_NAME}
+      SERVICE_PASSWORD: ${SERVICE_PASSWORD}
     deploy:
       restart_policy:
         condition: on-failure
@@ -34,9 +37,11 @@ services:
   db:
     image: mysql:8.4
     restart: always
-    env_file:
-      - path: .env
-        required: false
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3307:3306"
     volumes:
