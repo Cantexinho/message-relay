@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Build and Run Containers
         run: |
-          docker-compose up -d --build
+          docker-compose --env-file /path/to/.env up -d --build
       - name: Run Tests for event-consumer
         run: |
           docker-compose exec -T event-consumer pytest tests/
