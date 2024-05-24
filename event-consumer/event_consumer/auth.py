@@ -18,7 +18,9 @@ class AuthService:
         self.settings = Settings()
         self.oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-    async def get_current_user(self, token: Annotated[str, Depends(oauth2_scheme)]):
+    async def get_current_user(
+        self, token: Annotated[str, Depends(oauth2_scheme)]
+    ):
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
@@ -26,7 +28,9 @@ class AuthService:
         )
         try:
             payload = jwt.decode(
-                token, self.settings.secret_key, algorithms=[self.settings.algorithm]
+                token,
+                self.settings.secret_key,
+                algorithms=[self.settings.algorithm],
             )
             username: str = payload.get("sub")
             if username is None:
@@ -37,7 +41,9 @@ class AuthService:
             raise credentials_exception
         return username
 
-    def create_access_token(self, data: dict, expires_delta: timedelta | None = None):
+    def create_access_token(
+        self, data: dict, expires_delta: timedelta | None = None
+    ):
         to_encode = data.copy()
         if expires_delta:
             expire = datetime.now(timezone.utc) + expires_delta
@@ -45,7 +51,9 @@ class AuthService:
             expire = datetime.now(timezone.utc) + timedelta(minutes=15)
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(
-            to_encode, self.settings.secret_key, algorithm=self.settings.algorithm
+            to_encode,
+            self.settings.secret_key,
+            algorithm=self.settings.algorithm,
         )
         return encoded_jwt
 
