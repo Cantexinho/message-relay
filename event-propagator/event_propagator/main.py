@@ -21,7 +21,8 @@ async def get_token():
                     return access_token.strip()
             else:
                 raise ValueError(
-                    f"Failed to obtain access token: {response.status} {response.reason}"
+                    f"Failed to obtain access token: "
+                    f"{response.status} {response.reason}"
                 )
 
 
