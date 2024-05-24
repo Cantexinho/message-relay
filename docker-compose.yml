@@ -7,7 +7,7 @@ services:
       - ./event-consumer:/app
     restart: always
     env_file:
-      - .env
+      - ${LOCAL_ENV:+.env}
     deploy:
       restart_policy:
         condition: on-failure
@@ -22,7 +22,7 @@ services:
       - ./event-propagator:/app
     restart: always
     env_file:
-      - .env
+      - ${LOCAL_ENV:+.env}
     deploy:
       restart_policy:
         condition: on-failure
@@ -33,7 +33,7 @@ services:
     image: mysql:8.4
     restart: always
     env_file:
-      - .env
+      - ${LOCAL_ENV:+.env}
     ports:
       - "3307:3306"
     volumes:
