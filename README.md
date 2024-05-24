@@ -12,12 +12,14 @@ Dependencies:
 - event-propagator:
   - APScheduler
   - Pydantic
+  - Pydantic-settings
   - pytest
     
 - event-consumer:
   - FastAPI
   - uvicorn
   - Pydantic
+  - Pydantic-settings
   - SQLAlchemy
   - mysql-connector-python
   - pytest

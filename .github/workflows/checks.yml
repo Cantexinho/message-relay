@@ -21,9 +21,15 @@ jobs:
       - name: Run Tests for event-consumer
         run: |
           docker-compose exec -T event-consumer pytest tests/
+      - name: Run Flake8 for event-consumer
+        run: |
+          docker-compose exec -T event-consumer flake8 .
       - name: Run Tests for event-propagator
         run: |
           docker-compose exec -T event-propagator pytest tests/
+      - name: Run Flake8 for event-propagator
+        run: |
+          docker-compose exec -T event-propagator flake8 .
       - name: Stop Containers
         if: always()
         run: |

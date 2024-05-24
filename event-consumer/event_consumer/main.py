@@ -4,9 +4,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from .models import ServiceAuth, Token
 from .auth import AuthService
 
-import os
 from typing import Annotated
 from fastapi.security import OAuth2PasswordRequestForm
+
+from .models import Settings
 
 app = FastAPI()
 
@@ -22,14 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-auth_service = AuthService(
-    service_name=os.environ.get("SERVICE_NAME"),
-    service_password=os.environ.get("SERVICE_PASSWORD"),
-    secret_key=os.environ.get("SECRET_KEY"),
-    algorithm=os.environ.get("ALGORITHM"),
-    access_token_expire_minutes=os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES"),
-)
+auth_service = AuthService()
 
 
 @app.get("/ready/")

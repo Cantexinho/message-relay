@@ -2,31 +2,20 @@ from fastapi import status, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from datetime import datetime, timedelta, timezone
-import os
 from typing import Annotated
 
 import jwt
 from jwt.exceptions import InvalidTokenError
 
 from .models import ServiceAuth, Token
+from .settings import Settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 class AuthService:
-    def __init__(
-        self,
-        service_name: str,
-        service_password: str,
-        secret_key: str,
-        algorithm: str,
-        access_token_expire_minutes: int,
-    ):
-        self.service_name = service_name
-        self.service_password = service_password
-        self.secret_key = secret_key
-        self.algorithm = algorithm
-        self.access_token_expire_minutes = access_token_expire_minutes
+    def __init__(self):
+        self.settings = Settings()
         self.oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
     async def get_current_user(self, token: Annotated[str, Depends(oauth2_scheme)]):
@@ -36,13 +25,15 @@ class AuthService:
             headers={"WWW-Authenticate": "Bearer"},
         )
         try:
-            payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
+            payload = jwt.decode(
+                token, self.settings.secret_key, algorithms=[self.settings.algorithm]
+            )
             username: str = payload.get("sub")
             if username is None:
                 raise credentials_exception
         except InvalidTokenError:
             raise credentials_exception
-        if username != os.environ.get("SERVICE_NAME"):
+        if username != self.settings.service_name:
             raise credentials_exception
         return username
 
@@ -53,12 +44,15 @@ class AuthService:
         else:
             expire = datetime.now(timezone.utc) + timedelta(minutes=15)
         to_encode.update({"exp": expire})
-        encoded_jwt = jwt.encode(to_encode, self.secret_key, algorithm=self.algorithm)
+        encoded_jwt = jwt.encode(
+            to_encode, self.settings.secret_key, algorithm=self.settings.algorithm
+        )
         return encoded_jwt
 
     def authenticate_user(self, username: str, password: str):
-        if username != os.environ.get("SERVICE_NAME") or password != os.environ.get(
-            "SERVICE_PASSWORD"
+        if (
+            username != self.settings.service_name
+            or password != self.settings.service_password
         ):
             return False
         return ServiceAuth(username=username, password=password)
@@ -74,7 +68,9 @@ class AuthService:
                 detail="Incorrect username or password",
                 headers={"WWW-Authenticate": "Bearer"},
             )
-        access_token_expires = timedelta(minutes=int(self.access_token_expire_minutes))
+        access_token_expires = timedelta(
+            minutes=int(self.settings.access_token_expire_minutes)
+        )
         access_token = self.create_access_token(
             data={"sub": user.username}, expires_delta=access_token_expires
         )
