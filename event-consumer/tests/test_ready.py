@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from ..event_consumer.main import app
+from event_consumer.main import app
 
 client = TestClient(app)
 
