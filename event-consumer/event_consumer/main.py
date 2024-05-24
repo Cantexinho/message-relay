@@ -7,8 +7,6 @@ from .auth import AuthService
 from typing import Annotated
 from fastapi.security import OAuth2PasswordRequestForm
 
-from .models import Settings
-
 app = FastAPI()
 
 origins = [
