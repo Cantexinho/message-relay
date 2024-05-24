@@ -14,6 +14,7 @@ Dependencies:
   - Pydantic
   - Pydantic-settings
   - pytest
+  - aioresponses
     
 - event-consumer:
   - FastAPI
