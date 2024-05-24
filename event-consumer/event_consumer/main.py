@@ -38,6 +38,8 @@ async def login_for_access_token(
 
 @app.get("/events")
 async def get_events(
-    current_user: Annotated[ServiceAuth, Depends(auth_service.get_current_user)]
+    current_user: Annotated[
+        ServiceAuth, Depends(auth_service.get_current_user)
+    ]
 ):
     return current_user
