@@ -45,4 +45,4 @@ def test_get_events(client, access_token):
         "/events", headers={"Authorization": f"Bearer {access_token}"}
     )
     assert response.status_code == 200
-    assert response.json() == settings.service_name
+    assert isinstance(response.json(), list)
