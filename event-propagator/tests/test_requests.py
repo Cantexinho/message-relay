@@ -1,6 +1,11 @@
 import pytest
 from aioresponses import aioresponses
-from event_propagator.main import get_token, send_request
+from event_propagator.propagator import Propagator
+
+
+@pytest.fixture
+def propagator():
+    return Propagator()
 
 
 @pytest.fixture
@@ -10,36 +15,39 @@ def mock_env(monkeypatch):
 
 
 @pytest.mark.asyncio
-async def test_get_token_success(mock_env):
+async def test_get_token_success(mock_env, propagator):
     with aioresponses() as mock_service:
         mock_service.post(
             "http://event-consumer:8000/token",
             payload={"access_token": "test_token", "token_type": "bearer"},
         )
 
-        token = await get_token()
+        token = await propagator.get_token()
         assert token == "test_token"
 
 
 @pytest.mark.asyncio
-async def test_get_token_failure(mock_env):
+async def test_get_token_failure(mock_env, propagator):
     with aioresponses() as mock_service:
         mock_service.post("http://event-consumer:8000/token", status=401)
 
         with pytest.raises(ValueError) as excinfo:
-            await get_token()
+            await propagator.get_token()
         assert "Failed to obtain access token" in str(excinfo.value)
 
 
 @pytest.mark.asyncio
-async def test_send_request_success(mock_env):
+async def test_send_request_success(mock_env, propagator):
     with aioresponses() as mock_service:
         mock_service.post(
             "http://event-consumer:8000/token",
             payload={"access_token": "test_token", "token_type": "bearer"},
         )
-        mock_service.get(
-            "http://event-consumer:8000/events", body='{"event": "data"}'
+        mock_service.post(
+            "http://event-consumer:8000/events",
+            payload={
+                "type": "message",
+                "payload": "hello",
+            },
         )
-
-        await send_request()
+        await propagator.send_request()
