@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, status, Depends
+from fastapi import FastAPI, Response, status, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from .schemas import ServiceAuth, Token, EventCreate
@@ -56,4 +56,9 @@ async def post_event(
     ],
 ):
     db = DatabaseConnection()
-    return db.post_event(event_data.type, event_data.payload)
+    try:
+        db.post_event(event_data.type, event_data.payload)
+        return {"status": "success"}
+    except Exception as e:
+        print(f"Error while processing event: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")

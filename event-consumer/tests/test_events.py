@@ -3,6 +3,7 @@ import pytest
 
 from event_consumer.main import app
 from event_consumer.settings import Settings
+from unittest.mock import MagicMock
 
 settings = Settings()
 
@@ -32,3 +33,16 @@ def test_get_events(client, access_token):
     )
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
+
+def test_post_event(client, access_token):
+    event_data = {"type": "message", "payload": "hello"}
+
+    response = client.post(
+        "/events/",
+        headers={"Authorization": f"Bearer {access_token}"},
+        json=event_data,
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "success"}
