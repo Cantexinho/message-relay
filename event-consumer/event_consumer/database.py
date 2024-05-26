@@ -11,6 +11,7 @@ class DatabaseConnection:
         self.db_engine = self.create_connection()
         self.metadata = Base.metadata
         self.Session = sessionmaker(bind=self.db_engine)
+        self.create_events_table()
 
     def create_connection(self) -> object:
         db_engine = db.create_engine(

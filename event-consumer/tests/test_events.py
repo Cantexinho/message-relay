@@ -26,15 +26,9 @@ def access_token(client):
     return response.json()["access_token"]
 
 
-def test_login(client):
-    response = client.post(
-        "/token",
-        data={
-            "username": settings.service_name,
-            "password": settings.service_password,
-        },
+def test_get_events(client, access_token):
+    response = client.get(
+        "/events", headers={"Authorization": f"Bearer {access_token}"}
     )
     assert response.status_code == 200
-    token_data = response.json()
-    assert "access_token" in token_data
-    assert token_data["token_type"] == "bearer"
+    assert isinstance(response.json(), list)

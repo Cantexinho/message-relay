@@ -57,10 +57,3 @@ async def post_event(
 ):
     db = DatabaseConnection()
     return db.post_event(event_data.type, event_data.payload)
-
-
-@app.post("/create_table/")
-async def create_table():
-    db = DatabaseConnection()
-    db.create_events_table()
-    return None
