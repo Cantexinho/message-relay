@@ -30,7 +30,7 @@ async def send_request():
     token = await get_token()
     headers = {"Authorization": f"Bearer {token}"}
     async with aiohttp.ClientSession(headers=headers) as session:
-        async with session.get(
+        async with session.post(
             "http://event-consumer:8000/events"
         ) as response:
             print(await response.text())

@@ -1,11 +1,15 @@
-from pydantic import BaseModel
+from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, func
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 
-class ServiceAuth(BaseModel):
-    username: str
-    password: str
+class Event(Base):
+    __tablename__ = "events"
 
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    type = Column(String(255), nullable=False)
+    payload = Column(Text)
+    received_time = Column(
+        TIMESTAMP, nullable=False, default=func.current_timestamp()
+    )

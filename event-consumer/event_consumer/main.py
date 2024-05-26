@@ -1,11 +1,13 @@
 from fastapi import FastAPI, Response, status, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from .models import ServiceAuth, Token
+from .schemas import ServiceAuth, Token, EventCreate
 from .auth import AuthService
 
 from typing import Annotated
 from fastapi.security import OAuth2PasswordRequestForm
+
+from .database import DatabaseConnection
 
 app = FastAPI()
 
@@ -29,17 +31,36 @@ async def ready_check():
     return Response(status_code=status.HTTP_200_OK, content="ok")
 
 
-@app.post("/token")
+@app.post("/token/")
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ) -> Token:
     return await auth_service.login_for_access_token(form_data)
 
 
-@app.get("/events")
+@app.get("/events/")
 async def get_events(
     current_user: Annotated[
         ServiceAuth, Depends(auth_service.get_current_user)
     ]
 ):
-    return current_user
+    db = DatabaseConnection()
+    return db.get_all_events()
+
+
+@app.post("/events/")
+async def post_event(
+    event_data: EventCreate,
+    current_user: Annotated[
+        ServiceAuth, Depends(auth_service.get_current_user)
+    ],
+):
+    db = DatabaseConnection()
+    return db.post_event(event_data.type, event_data.payload)
+
+
+@app.post("/create_table/")
+async def create_table():
+    db = DatabaseConnection()
+    db.create_events_table()
+    return None

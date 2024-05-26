@@ -7,7 +7,7 @@ from typing import Annotated
 import jwt
 from jwt.exceptions import InvalidTokenError
 
-from .models import ServiceAuth, Token
+from .schemas import ServiceAuth, Token
 from .settings import Settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
