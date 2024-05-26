@@ -15,4 +15,4 @@ class DatabaseSettings(BaseSettings):
     mysql_root_password: str
     mysql_database: str
     mysql_host: str
-    mysql_port: str
+    mysql_port: int
