@@ -30,6 +30,13 @@ jobs:
       - name: Build and Run Containers
         run: |
           docker-compose up -d --build
+      - name: Wait for MySQL service to become available
+        run: |
+          echo "Waiting for MySQL service to become available..."
+          until docker-compose exec -T db mysqladmin ping -h"${{ secrets.MYSQL_HOST }}" -P"${{ secrets.MYSQL_PORT }}}" -u"${{ secrets.MYSQL_USER }}" -p"${{ secrets.MYSQL_PASSWORD }}"; do
+            sleep 1
+          done
+          echo "MySQL service is now available."
       - name: Run Tests for event-consumer
         run: |
           docker-compose exec -T event-consumer pytest tests/
