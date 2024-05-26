@@ -30,6 +30,8 @@ jobs:
       - name: Build and Run Containers
         run: |
           docker-compose up -d --build
+          docker-compose exec -T event-consumer sh -c 'until nc -z ${MYSQL_HOST} ${MYSQL_PORT}; do sleep 1; done'
+          docker-compose exec -T event-propagator sh -c 'until nc -z ${MYSQL_HOST} ${MYSQL_PORT}; do sleep 1; done'
       - name: Run Tests for event-consumer
         run: |
           docker-compose exec -T event-consumer pytest tests/
