@@ -15,7 +15,8 @@ class DatabaseConnection:
 
     def create_connection(self) -> object:
         db_engine = db.create_engine(
-            f"mysql+mysqlconnector://{self.settings.mysql_user}:{self.settings.mysql_password}"
+            f"mysql+mysqlconnector://"
+            f"{self.settings.mysql_user}:{self.settings.mysql_password}"
             f"@{self.settings.mysql_host}:{int(self.settings.mysql_port)}"
             f"/{self.settings.mysql_database}"
         )

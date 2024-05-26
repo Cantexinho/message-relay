@@ -3,7 +3,6 @@ import pytest
 
 from event_consumer.main import app
 from event_consumer.settings import Settings
-from unittest.mock import MagicMock
 
 settings = Settings()
 
