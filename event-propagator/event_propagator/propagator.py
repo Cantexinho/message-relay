@@ -1,5 +1,6 @@
 """
-    Event propagator class used to encapsulate functions to succesfully propagate events.
+    Event propagator class used to encapsulate functions
+    to succesfully propagate events.
     get_token() -> used for authentication with consumer
     get_events() -> pulls events from file
     get_random_event() -> randomly chooses event to post
