@@ -61,12 +61,12 @@ Endpoints:
   - `/event` `POST` uploads received payload to database
   - `/event` `GET` lists events uploaded to database
 
-  Auth:
-  - Oauth2 JWT authentication for callin event-consumer. Storing username and password of event-propagator in env variables as it is the only service we want to authenticate.
+Auth:
+- Oauth2 JWT authentication for callin event-consumer. Storing username and password of event-propagator in env variables as it is the only service we want to authenticate.
 
-  Notes:
-   - Due to docker-compose context limitation we can only take data.json with the use of volumes. 
-    I have placed data.json in event-propagator context for testing purposes, but if needed I have commented how we can pull data using absolute path in docker-compose
+Notes:
+- Due to docker-compose context limitation we can only take data.json with the use of volumes. 
+  I have placed data.json in event-propagator context for testing purposes, but if needed I have commented how we can pull data using absolute path in docker-compose
 
 Installation and startup:
 - Install docker to your pc
