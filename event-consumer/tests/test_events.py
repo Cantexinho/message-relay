@@ -35,7 +35,7 @@ def test_get_events(client, access_token):
 
 
 def test_post_event(client, access_token):
-    event_data = {"type": "message", "payload": "hello"}
+    event_data = {"event_type": "message", "event_payload": "hello"}
 
     response = client.post(
         "/events/",

@@ -33,12 +33,12 @@ class DatabaseConnection:
         finally:
             session.close()
 
-    def post_event(self, event_type, payload):
+    def post_event(self, type, payload):
         Session = sessionmaker(bind=self.db_engine)
         session = Session()
 
         try:
-            new_event = Event(type=event_type, payload=payload)
+            new_event = Event(type=type, payload=payload)
             session.add(new_event)
             session.commit()
         except Exception as e:

@@ -16,4 +16,4 @@ COPY event_propagator ./event_propagator
 
 EXPOSE 8001
 
-CMD ["poetry", "run", "python", "event_propagator/main.py"]
+CMD ["sh", "-c", "poetry run python event_propagator/check_event_consumer.py && poetry run python event_propagator/main.py"]

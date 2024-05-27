@@ -57,7 +57,7 @@ async def post_event(
 ):
     db = DatabaseConnection()
     try:
-        db.post_event(event_data.type, event_data.payload)
+        db.post_event(event_data.event_type, event_data.event_payload)
         return {"status": "success"}
     except Exception as e:
         print(f"Error while processing event: {e}")

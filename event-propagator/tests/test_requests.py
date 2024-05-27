@@ -1,11 +1,13 @@
 import pytest
 from aioresponses import aioresponses
 from event_propagator.propagator import Propagator
+from event_propagator.settings import Settings
 
 
 @pytest.fixture
 def propagator():
-    return Propagator()
+    settings = Settings()
+    return Propagator(settings)
 
 
 @pytest.fixture

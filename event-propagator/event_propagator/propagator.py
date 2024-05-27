@@ -1,16 +1,25 @@
+"""
+    Event propagator class used to encapsulate functions to succesfully propagate events.
+    get_token() -> used for authentication with consumer
+    get_events() -> pulls events from file
+    get_random_event() -> randomly chooses event to post
+    send_request() -> posts event to specified endpoint
+"""
+
 import aiohttp
 
 import json
 import random
 
-from settings import Settings
-
 
 class Propagator:
-    def __init__(self) -> None:
-        self.settings = Settings()
-        self.token = self.get_token()
+    def __init__(self, settings) -> None:
+        self.settings = settings
+        self.token = None
         self.events = self.get_events()
+
+    async def initialize(self):
+        self.token = await self.get_token()
 
     async def get_token(self):
         async with aiohttp.ClientSession() as session:
