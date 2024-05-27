@@ -1,7 +1,7 @@
 import pytest
 import unittest
 import json
-from unittest.mock import MagicMock, AsyncMock, patch
+from unittest.mock import AsyncMock, patch
 from event_propagator.propagator import Propagator
 
 
