@@ -8,7 +8,7 @@
 
     Note: method .create_all() automatically checks if tables
     to be created are present in database, if so it skips
-    recreation of these tables, so checking if tables are 
+    recreation of these tables, so checking if tables are
     created is not needed.
 
     -> get_all_events() - gets all events from events table.

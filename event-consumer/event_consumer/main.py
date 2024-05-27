@@ -13,12 +13,11 @@
         password: str
 
     -> GET /events/ returns all events from events table.
-    
+
     -> POST /events/ posts event to events table
     Expects EventCreate object:
         event_type: str
         event_payload: str
-
 """
 
 from fastapi import FastAPI, Response, status, Depends, HTTPException
