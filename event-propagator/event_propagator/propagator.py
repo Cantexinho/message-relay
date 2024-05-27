@@ -60,9 +60,10 @@ class Propagator:
     async def send_request(self):
         headers = {"Authorization": f"Bearer {self.token}"}
         event = self.get_random_event()
-        async with aiohttp.ClientSession(headers=headers) as session:
+        async with aiohttp.ClientSession() as session:
             async with session.post(
                 f"http://event-consumer:8000/{self.settings.endpoint_to_post}",
+                headers=headers,
                 json=event,
             ) as response:
                 print(await response.text())

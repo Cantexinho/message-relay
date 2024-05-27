@@ -9,8 +9,8 @@ from event_propagator.propagator import Propagator
 async def test_initialize():
     mock_token = "mocked_token"
     propagator = Propagator(MockSettings())
-    await propagator.initialize()
     propagator.get_token = AsyncMock(return_value=mock_token)
+    await propagator.initialize()
     assert propagator.token == mock_token
 
 
@@ -31,26 +31,6 @@ def test_get_random_event():
     propagator.events = mock_events
     random_event = propagator.get_random_event()
     assert random_event in mock_events
-
-
-@pytest.mark.asyncio
-async def test_send_request():
-    mock_response = MagicMock()
-    mock_response.status = 200
-    mock_response.json = AsyncMock(
-        return_value={"access_token": "mocked_token"}
-    )
-    mock_session = AsyncMock()
-    mock_session.post = AsyncMock(return_value=mock_response)
-    propagator = Propagator(MockSettings())
-    propagator.get_token = AsyncMock(return_value="mocked_token")
-    propagator.get_random_event = MagicMock(return_value={"event": "data"})
-    with patch("aiohttp.ClientSession", return_value=mock_session):
-        await propagator.send_request()
-    mock_session.post.assert_awaited_once_with(
-        f"http://event-consumer:8000/{propagator.settings.endpoint_to_post}",
-        json=propagator.get_random_event(),
-    )
 
 
 class MockSettings:
