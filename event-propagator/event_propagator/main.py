@@ -1,3 +1,10 @@
+"""
+    Propagator service entry point.
+    Uses async for the possibility of sending request concurently.
+    Creates propagator object to send requests.
+    Creates scheduler using AsyncIOScheduler() to schedule jobs.
+"""
+
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import asyncio
 
@@ -10,7 +17,11 @@ async def main():
     propagator = Propagator(settings)
     await propagator.initialize()
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(propagator.send_request, "interval", seconds=20)
+    scheduler.add_job(
+        propagator.send_request,
+        "interval",
+        seconds=int(settings.scheduler_interval),
+    )
     scheduler.start()
 
     while True:

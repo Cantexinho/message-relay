@@ -1,10 +1,10 @@
 """
     Event propagator class used to encapsulate functions
     to succesfully propagate events.
-    get_token() -> used for authentication with consumer
-    get_events() -> pulls events from file
-    get_random_event() -> randomly chooses event to post
-    send_request() -> posts event to specified endpoint
+    get_token() -> used for authentication with consumer.
+    get_events() -> pulls events from file.
+    get_random_event() -> randomly chooses event to post.
+    send_request() -> posts event to specified endpoint.
 """
 
 import aiohttp
@@ -62,6 +62,7 @@ class Propagator:
         event = self.get_random_event()
         async with aiohttp.ClientSession(headers=headers) as session:
             async with session.post(
-                "http://event-consumer:8000/events", json=event
+                f"http://event-consumer:8000/{self.settings.endpoint_to_post}",
+                json=event,
             ) as response:
                 print(await response.text())

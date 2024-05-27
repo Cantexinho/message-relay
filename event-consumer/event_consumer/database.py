@@ -1,3 +1,24 @@
+"""
+    Database connection class used to encapsulate database
+    connection and operations.
+
+    -> create_connection() - creates connection with database.
+    -> create_events_table() - uses Base = declarative_base() impoerted
+    from models.py to create metadata and creates all declared tables.
+
+    Note: method .create_all() automatically checks if tables
+    to be created are present in database, if so it skips
+    recreation of these tables, so checking if tables are 
+    created is not needed.
+
+    -> get_all_events() - gets all events from events table.
+    -> post_event() - post event to database.
+        Expected data:  {
+                            "event_type": type=str,
+                            "event_payload": type=str
+                        },
+"""
+
 import sqlalchemy as db
 
 from sqlalchemy.orm import sessionmaker
@@ -33,7 +54,7 @@ class DatabaseConnection:
         finally:
             session.close()
 
-    def post_event(self, type, payload):
+    def post_event(self, type: str, payload: str):
         Session = sessionmaker(bind=self.db_engine)
         session = Session()
 

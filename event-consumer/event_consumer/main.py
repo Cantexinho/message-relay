@@ -1,3 +1,26 @@
+"""
+    Main fastapi app.
+    Uses cors to enable secure communication between
+    the client-side web application and the server.
+
+    Endpoints:
+
+    -> GET /ready/ check to see if api is ready.
+
+    -> GET /token/ returns token used for auth.
+    Expects OAuth2PasswordRequestForm which requires:
+        username: str
+        password: str
+
+    -> GET /events/ returns all events from events table.
+    
+    -> POST /events/ posts event to events table
+    Expects EventCreate object:
+        event_type: str
+        event_payload: str
+
+"""
+
 from fastapi import FastAPI, Response, status, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 

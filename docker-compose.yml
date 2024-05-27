@@ -25,15 +25,20 @@ services:
       - db
 
   event-propagator:
-    build: ./event-propagator
+    build:
+      context: ./event-propagator
     ports:
       - "8001:8001"
     volumes:
       - ./event-propagator:/app
+      # If data is placed out of event-propagator context we can use this line
+      # - C:/path/to/absolute/data.json/location:/app/data/data.json
     restart: always
     environment:
       SERVICE_NAME: ${SERVICE_NAME}
       SERVICE_PASSWORD: ${SERVICE_PASSWORD}
+      SCHEDULER_INTERVAL: ${SCHEDULER_INTERVAL}
+      ENDPOINT_TO_POST: ${ENDPOINT_TO_POST}
     deploy:
       restart_policy:
         condition: on-failure

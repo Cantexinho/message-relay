@@ -11,6 +11,13 @@ class Token(BaseModel):
     token_type: str
 
 
+"""
+    Added validation to check if event type and payload are strings.
+    From provided data it doesn`t seem logical for type and payload
+    not to be strings so posting them should not be allowed.
+"""
+
+
 class EventCreate(BaseModel):
     event_type: str
     event_payload: str

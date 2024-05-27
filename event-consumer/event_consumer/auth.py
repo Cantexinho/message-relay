@@ -1,3 +1,26 @@
+"""
+    Autherntication class used to authenticate api callers.
+    Generates jwt token using oauth2
+    and check if requests are made with this token.
+    Authenticates to .env variables:
+        - SERVICE_NAME = "service1"
+        - SERVICE_PASSWORD = "service_password"
+
+    -> get_current_user() - receives token and decodes it to check if
+    username matches SERVICE_NAME = "service1".
+
+    -> create_access_token() - creates token with provided
+    algorythm and secret key.
+
+    -> authenticate_user() - check if user credentials matches
+        SERVICE_NAME = "service1"
+        SERVICE_PASSWORD = "service_password"
+
+    -> login_for_access_token() - function used to login user
+    uses authenticate_user() to auth user and
+    create_access_token() to create token to return.
+"""
+
 from fastapi import status, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
