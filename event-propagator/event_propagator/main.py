@@ -23,7 +23,6 @@ async def main():
         seconds=int(settings.scheduler_interval),
     )
     scheduler.start()
-
     while True:
         await asyncio.sleep(3600)
 

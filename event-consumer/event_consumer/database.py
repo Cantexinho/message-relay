@@ -57,7 +57,6 @@ class DatabaseConnection:
     def post_event(self, type: str, payload: str):
         Session = sessionmaker(bind=self.db_engine)
         session = Session()
-
         try:
             new_event = Event(type=type, payload=payload)
             session.add(new_event)
