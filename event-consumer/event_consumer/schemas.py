@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ValidationError, field_validator
+from pydantic import BaseModel, field_validator
 
 
 class ServiceAuth(BaseModel):
