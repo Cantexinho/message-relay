@@ -11,10 +11,14 @@ Stack:
 Dependencies:
 - event-propagator:
   - APScheduler
+  - Aiohttp
   - Pydantic
   - Pydantic-settings
-  - pytest
-  - aioresponses
+  - Pytest
+  - Aioresponses
+  - Pytest-asyncio
+  - Requests
+  - flake8
     
 - event-consumer:
   - FastAPI
@@ -25,6 +29,7 @@ Dependencies:
   - mysql-connector-python
   - pytest
   - pyjwt
+  - flake8
 
 Docker-compose:
 - event-propagator (python:3.12-slim-bookworm)
@@ -59,7 +64,6 @@ Endpoints:
   Auth:
   - Oauth2 JWT authentication for callin event-consumer. Storing username and password of event-propagator in env variables as it is the only service we want to authenticate.
 
-
   Notes:
    - Due to docker-compose context limitation we can only take data.json with the use of volumes. 
-  I have placed data.json in event-propagator context for testing purposes, but if needed I have commented how we can pull data using absolute path in docker-compose
+    I have placed data.json in event-propagator context for testing purposes, but if needed I have commented how we can pull data using absolute path in docker-compose
