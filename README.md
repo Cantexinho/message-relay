@@ -67,3 +67,11 @@ Endpoints:
   Notes:
    - Due to docker-compose context limitation we can only take data.json with the use of volumes. 
     I have placed data.json in event-propagator context for testing purposes, but if needed I have commented how we can pull data using absolute path in docker-compose
+
+Installation and startup:
+- Install docker to your pc
+- Install make (you can use `choco install make`)
+- Configure .env using .env.example as an example
+- Use `make up` 
+- After docker-compose finished building use `make status` to follow the logs
+- Other make commads are provided in Makefile
