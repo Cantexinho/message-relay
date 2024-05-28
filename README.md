@@ -57,7 +57,7 @@ Endpoints:
 - event-propagator:
   - None
 - event-consumer:
-  - `/token` `POST` generates auth token and refresh token when passed credentials
+  - `/token` `POST` generates auth token when passed credentials
   - `/event` `POST` uploads received payload to database
   - `/event` `GET` lists events uploaded to database
 
