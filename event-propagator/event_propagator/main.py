@@ -20,6 +20,8 @@ async def main():
     scheduler.add_job(
         propagator.send_request,
         "interval",
+        # REVIEW COMMENT:
+        # Why is scheduler interval not `int` to begin with? Seems redundant to cast it from str here.
         seconds=int(settings.scheduler_interval),
     )
     scheduler.start()

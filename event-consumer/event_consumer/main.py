@@ -62,9 +62,7 @@ async def login_for_access_token(
 
 @app.get("/events/")
 async def get_events(
-    current_user: Annotated[
-        ServiceAuth, Depends(auth_service.get_current_user)
-    ]
+    current_user: Annotated[ServiceAuth, Depends(auth_service.get_current_user)]
 ):
     db = DatabaseConnection()
     return db.get_all_events()
@@ -73,14 +71,18 @@ async def get_events(
 @app.post("/events/")
 async def post_event(
     event_data: EventCreate,
-    current_user: Annotated[
-        ServiceAuth, Depends(auth_service.get_current_user)
-    ],
+    current_user: Annotated[ServiceAuth, Depends(auth_service.get_current_user)],
 ):
     db = DatabaseConnection()
     try:
+        # REVIEW COMMENT:
+        # This synchronous method is used in an async context, which would block the main thread completely.
+        # Ideally, sync methods should be used in a sync context only.
         db.post_event(event_data.event_type, event_data.event_payload)
         return {"status": "success"}
     except Exception as e:
         print(f"Error while processing event: {e}")
+        # REVIEW COMMENT:
+        # Nitpick, but raising any exception would return a 500 error code in FastAPI.
+        # Therefore, it would be more informative to reraise the gotten exception or raise a custom one.
         raise HTTPException(status_code=500, detail="Internal Server Error")
