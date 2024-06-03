@@ -6,11 +6,18 @@
 import time
 import requests
 
+
+# REVIEW COMMENT:
+# Since you're using pydantic settings, it would be cleaner to define this URL there.
+# Also, we could define the consumer url separately and just construct /event and /ready endpoints from it as well.
 service1_url = "http://event-consumer:8000/ready/"
 
 while True:
     try:
         response = requests.get(service1_url)
+        # REVIEW COMMENT:
+        # More of a nitpick, but the `requests` response object has a method called `raise_for_status`.
+        # Using it here and catching the exception would be more pythonic IMO.
         if response.status_code == 200:
             break
     except requests.exceptions.ConnectionError:

@@ -22,6 +22,8 @@ class EventCreate(BaseModel):
     event_type: str
     event_payload: str
 
+    # REVIEW COMMENT:
+    # These validators aren't necessary, since Pydantic performs this validation by default.
     @field_validator("event_type")
     def validate_event_type(cls, value):
         if not isinstance(value, str):
